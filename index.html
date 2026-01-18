@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Countdown to Your Birthday ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #fff;
+      text-align: center;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 30px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      max-width: 350px;
+      width: 90%;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+
+    .countdown {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .time-box {
+      background: rgba(255,255,255,0.25);
+      border-radius: 15px;
+      padding: 10px;
+      flex: 1;
+    }
+
+    .number {
+      font-size: 1.6rem;
+      font-weight: bold;
+    }
+
+    .label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      margin-top: 5px;
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>💖 Your Birthday Countdown 💖</h1>
+  <p>Counting every second till your special day ✨</p>
+
+  <div class="countdown">
+    <div class="time-box">
+      <div class="number" id="days">0</div>
+      <div class="label">Days</div>
+    </div>
+    <div class="time-box">
+      <div class="number" id="hours">0</div>
+      <div class="label">Hours</div>
+    </div>
+    <div class="time-box">
+      <div class="number" id="minutes">0</div>
+      <div class="label">Minutes</div>
+    </div>
+    <div class="time-box">
+      <div class="number" id="seconds">0</div>
+      <div class="label">Seconds</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Made with ❤️ just for you
+  </div>
+</div>
+
+<script>
+  function getNextBirthday() {
+    const now = new Date();
+    let birthday = new Date(now.getFullYear(), 1, 12); // Feb = 1
+
+    if (now > birthday) {
+      birthday = new Date(now.getFullYear() + 1, 1, 12);
+    }
+    return birthday;
+  }
+
+  const birthdayDate = getNextBirthday();
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = birthdayDate - now;
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("days").innerHTML = days;
+    document.getElementById("hours").innerHTML = hours;
+    document.getElementById("minutes").innerHTML = minutes;
+    document.getElementById("seconds").innerHTML = seconds;
+  }
+
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+</script>
+
+</body>
+</html>
