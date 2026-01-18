@@ -2,131 +2,241 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Countdown to Your Birthday ❤️</title>
+  <title>Garvu’s 21st Birthday 💖</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
-      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ffd6e8, #ffc1cc);
       font-family: 'Poppins', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
       color: #fff;
       text-align: center;
+      overflow: hidden;
     }
 
-    .container {
-      background: rgba(255, 255, 255, 0.15);
-      padding: 30px;
-      border-radius: 20px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-      max-width: 350px;
+    .card {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(15px);
+      border-radius: 25px;
+      padding: 25px;
       width: 90%;
+      max-width: 360px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      z-index: 2;
     }
 
     h1 {
-      font-size: 1.8rem;
-      margin-bottom: 10px;
+      font-size: 1.6rem;
+      margin-bottom: 5px;
     }
 
-    p {
-      font-size: 1rem;
-      margin-bottom: 20px;
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 400;
+      margin-bottom: 15px;
+    }
+
+    img {
+      width: 100%;
+      border-radius: 18px;
+      margin-bottom: 15px;
+    }
+
+    .note {
+      font-size: 0.95rem;
+      margin-bottom: 18px;
     }
 
     .countdown {
       display: flex;
       justify-content: space-between;
-      gap: 10px;
+      gap: 8px;
+      margin-bottom: 15px;
     }
 
-    .time-box {
-      background: rgba(255,255,255,0.25);
-      border-radius: 15px;
+    .box {
+      background: rgba(255,255,255,0.35);
       padding: 10px;
+      border-radius: 15px;
       flex: 1;
     }
 
     .number {
-      font-size: 1.6rem;
+      font-size: 1.3rem;
       font-weight: bold;
     }
 
     .label {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
-      margin-top: 5px;
     }
 
-    .footer {
-      margin-top: 20px;
+    .btn {
+      background: #ff6fa5;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 20px;
+      color: white;
       font-size: 0.9rem;
+      cursor: pointer;
+      margin-top: 10px;
     }
+
+    .popup {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 5;
+    }
+
+    .popup-content {
+      background: #fff;
+      color: #333;
+      padding: 25px;
+      border-radius: 20px;
+      width: 85%;
+      max-width: 350px;
+      text-align: center;
+    }
+
+    .popup-content h3 {
+      color: #ff6fa5;
+    }
+
+    .close {
+      margin-top: 15px;
+      background: #ff6fa5;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 15px;
+      cursor: pointer;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    audio { display: none; }
   </style>
 </head>
+
 <body>
 
-<div class="container">
-  <h1>💖 Your Birthday Countdown 💖</h1>
-  <p>Counting every second till your special day ✨</p>
+<canvas id="confetti"></canvas>
 
-  <div class="countdown">
-    <div class="time-box">
-      <div class="number" id="days">0</div>
-      <div class="label">Days</div>
-    </div>
-    <div class="time-box">
-      <div class="number" id="hours">0</div>
-      <div class="label">Hours</div>
-    </div>
-    <div class="time-box">
-      <div class="number" id="minutes">0</div>
-      <div class="label">Minutes</div>
-    </div>
-    <div class="time-box">
-      <div class="number" id="seconds">0</div>
-      <div class="label">Seconds</div>
-    </div>
+<div class="card">
+  <h1 id="title">💖 Countdown to Garvu’s Birthday 💖</h1>
+  <h2 id="subtitle">My favourite person turns 21 🥹✨</h2>
+
+  <img src="photo.jpg" alt="Garvu">
+
+  <div class="note">
+    Best boyfriend in the world 🌍❤️  
+    You make me so happy, loved, and safe — always.
   </div>
 
-  <div class="footer">
-    Made with ❤️ just for you
+  <div class="countdown" id="countdown">
+    <div class="box"><div class="number" id="days"></div><div class="label">Days</div></div>
+    <div class="box"><div class="number" id="hours"></div><div class="label">Hours</div></div>
+    <div class="box"><div class="number" id="minutes"></div><div class="label">Minutes</div></div>
+    <div class="box"><div class="number" id="seconds"></div><div class="label">Seconds</div></div>
+  </div>
+
+  <button class="btn" onclick="openLetter()">💌 Open Love Letter</button>
+</div>
+
+<div class="popup" id="letter">
+  <div class="popup-content">
+    <h3>To my Garvu 💖</h3>
+    <p>
+      Happy 21st birthday, love.  
+      You are my best friend, my comfort, my happiest place.  
+      I’m so proud of you and so grateful to love you.  
+      Always yours 🤍
+    </p>
+    <button class="close" onclick="closeLetter()">Close</button>
   </div>
 </div>
 
+<audio autoplay loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
 <script>
-  function getNextBirthday() {
-    const now = new Date();
-    let birthday = new Date(now.getFullYear(), 1, 12); // Feb = 1
-
-    if (now > birthday) {
-      birthday = new Date(now.getFullYear() + 1, 1, 12);
-    }
-    return birthday;
-  }
-
-  const birthdayDate = getNextBirthday();
+  const birthday = new Date(new Date().getFullYear(), 1, 12, 0, 0, 0);
 
   function updateCountdown() {
-    const now = new Date().getTime();
-    const distance = birthdayDate - now;
+    const now = new Date();
+    let target = birthday;
+    if (now > birthday) target = new Date(birthday.getFullYear() + 1, 1, 12);
 
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    const diff = target - now;
 
-    document.getElementById("days").innerHTML = days;
-    document.getElementById("hours").innerHTML = hours;
-    document.getElementById("minutes").innerHTML = minutes;
-    document.getElementById("seconds").innerHTML = seconds;
+    if (diff <= 0) {
+      document.getElementById("title").innerHTML = "🎉 Happiest 21st Birthday Garvu 🎉";
+      document.getElementById("subtitle").innerHTML = "Today is all about YOU 💖";
+      document.getElementById("countdown").style.display = "none";
+      startConfetti();
+      return;
+    }
+
+    document.getElementById("days").innerHTML = Math.floor(diff / (1000*60*60*24));
+    document.getElementById("hours").innerHTML = Math.floor((diff/(1000*60*60))%24);
+    document.getElementById("minutes").innerHTML = Math.floor((diff/(1000*60))%60);
+    document.getElementById("seconds").innerHTML = Math.floor((diff/1000)%60);
   }
 
   setInterval(updateCountdown, 1000);
   updateCountdown();
+
+  function openLetter() {
+    document.getElementById("letter").style.display = "flex";
+  }
+  function closeLetter() {
+    document.getElementById("letter").style.display = "none";
+  }
+
+  // Confetti
+  function startConfetti() {
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const pieces = Array.from({length: 150}, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 6 + 4,
+      d: Math.random() * 2 + 1
+    }));
+
+    function draw() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle = "#ff6fa5";
+      pieces.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fill();
+        p.y += p.d;
+        if (p.y > canvas.height) p.y = 0;
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
 </script>
 
 </body>
